@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jeu Pong</title>
+    <style>
+        body {
+            font-family: 'Garamond', serif;
+            background: linear-gradient(to bottom, #f2e8dc, #d6c6b8);
+            margin: 0;
+            padding: 20px;
+        }
+        nav {
+            background: #4b2e1e;
+            padding: 10px 0;
+            text-align: center;
+        }
+        nav a {
+            color: #fff8ef;
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: bold;
+        }
+        nav a:hover {
+            color: #d6c6b8;
+        }
+        canvas {
+            display: block;
+            margin: 30px auto;
+            background: #333;
+            border: 3px solid #b89b79;
+        }
+        .scoreboard, .buttons {
+            text-align: center;
+            font-size: 1.2em;
+            color: #4b2e1e;
+            margin: 10px;
+        }
+        button {
+            background-color: #4b2e1e;
+            color: white;
+            padding: 8px 14px;
+            margin: 5px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #6c4c34;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="index.html">🏠 Accueil</a>
+    </nav>
+
+    <div class="scoreboard">
+        Score Joueur : <span id="playerScore">0</span> | Score IA : <span id="aiScore">0</span>
+    </div>
+
+    <div class="buttons">
+        <button id="startBtn">Jouer</button>
+        <button id="fullscreenBtn">Plein écran</button>
+    </div>
+
+    <canvas id="pong" width="600" height="400"></canvas>
+
+    <script>
+        const canvas = document.getElementById('pong');
+        const ctx = canvas.getContext('2d');
+        const startBtn = document.getElementById('startBtn');
+        const fullscreenBtn = document.getElementById('fullscreenBtn');
+
+        let paddleHeight = 75, paddleWidth = 10, ballRadius = 8;
+        let paddleY = (canvas.height - paddleHeight) / 2;
+        let aiPaddleY = (canvas.height - paddleHeight) / 2;
+        let rightPressed = false, leftPressed = false;
+        let x = canvas.width / 2, y = canvas.height / 2;
+        let dx = 3, dy = 3;
+        let playerScore = 0, aiScore = 0;
+        let interval;
+
+        document.addEventListener('keydown', e => { if (e.key == "ArrowUp") rightPressed = true; if (e.key == "ArrowDown") leftPressed = true; });
+        document.addEventListener('keyup', e => { if (e.key == "ArrowUp") rightPressed = false; if (e.key == "ArrowDown") leftPressed = false; });
+
+        startBtn.onclick = () => {
+            if (!interval) interval = setInterval(draw, 10);
+        };
+
+        fullscreenBtn.onclick = () => {
+            if (canvas.requestFullscreen) {
+                canvas.requestFullscreen();
+            } else if (canvas.webkitRequestFullscreen) {
+                canvas.webkitRequestFullscreen();
+            } else if (canvas.msRequestFullscreen) {
+                canvas.msRequestFullscreen();
+            }
+        };
+
+        function drawPaddle(x, y) {
+            ctx.beginPath();
+            ctx.rect(x, y, paddleWidth, paddleHeight);
+            ctx.fillStyle = "#b89b79";
+            ctx.fill();
+            ctx.closePath();
+        }
+
+        function drawBall() {
+            ctx.beginPath();
+            ctx.arc(x, y, ballRadius, 0, Math.PI * 2);
+            ctx.fillStyle = "#b89b79";
+            ctx.fill();
+            ctx.closePath();
+        }
+
+        function resetBall() {
+            x = canvas.width / 2;
+            y = canvas.height / 2;
+            dx = -dx;
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            drawPaddle(0, paddleY);
+            drawPaddle(canvas.width - paddleWidth, aiPaddleY);
+            drawBall();
+
+            if (aiPaddleY + paddleHeight/2 < y) aiPaddleY += 2.5;
+            else if (aiPaddleY + paddleHeight/2 > y) aiPaddleY -= 2.5;
+
+            if (y + dy > canvas.height - ballRadius || y + dy < ballRadius) dy = -dy;
+            if (x + dx < paddleWidth) {
+                if (y > paddleY && y < paddleY + paddleHeight) dx = -dx;
+                else { aiScore++; document.getElementById('aiScore').innerText = aiScore; resetBall(); }
+            }
+            if (x + dx > canvas.width - paddleWidth) {
+                if (y > aiPaddleY && y < aiPaddleY + paddleHeight) dx = -dx;
+                else { playerScore++; document.getElementById('playerScore').innerText = playerScore; resetBall(); }
+            }
+
+            if (rightPressed && paddleY > 0) paddleY -= 7;
+            else if (leftPressed && paddleY < canvas.height - paddleHeight) paddleY += 7;
+
+            x += dx;
+            y += dy;
+        }
+    </script>
+</body>
+</html>

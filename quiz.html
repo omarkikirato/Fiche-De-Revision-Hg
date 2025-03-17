@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz</title>
+    <style>
+        body {
+            font-family: 'Garamond', serif;
+            background: linear-gradient(to bottom, #f2e8dc, #d6c6b8);
+            margin: 0;
+            padding: 20px;
+        }
+        nav {
+            background: #4b2e1e;
+            padding: 10px 0;
+            text-align: center;
+        }
+        nav a {
+            color: #fff8ef;
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: bold;
+        }
+        nav a:hover {
+            color: #d6c6b8;
+        }
+        .container {
+            background: #fff8ef;
+            padding: 25px;
+            border-radius: 8px;
+            max-width: 600px;
+            margin: 30px auto;
+            border: 1px solid #b89b79;
+        }
+        h1 {
+            color: #4b2e1e;
+            text-align: center;
+        }
+        .quiz-question {
+            margin-bottom: 20px;
+        }
+        .quiz-question p {
+            color: #3c2a1c;
+            margin-bottom: 8px;
+        }
+        button {
+            background-color: #4b2e1e;
+            color: white;
+            padding: 8px 14px;
+            margin: 5px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #6c4c34;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="index.html">🏠 Accueil</a>
+    </nav>
+
+    <div class="container">
+        <h1>Quiz interactif 🧠</h1>
+
+        <div class="quiz-question">
+            <p>1. Quel roi symbolise l’absolutisme en France ?</p>
+            <button onclick="alert('Bonne réponse ! Louis XIV est le Roi-Soleil.')">Louis XIV</button>
+            <button onclick="alert('Incorrect. Ce n’est pas Henri II.')">Henri II</button>
+            <button onclick="alert('Incorrect. Ce n’est pas François Ier.')">François Ier</button>
+        </div>
+
+        <div class="quiz-question">
+            <p>2. Qui était le principal ministre de Louis XIII ?</p>
+            <button onclick="alert('Incorrect. Ce n’est pas Colbert.')">Colbert</button>
+            <button onclick="alert('Incorrect. Ce n’est pas Mazarin.')">Mazarin</button>
+			<button onclick="alert('Bonne réponse ! C’est Richelieu.')">Richelieu</button>
+        </div>
+
+        <div class="quiz-question">
+            <p>3. Quelle ordonnance impose le français comme langue officielle ?</p>
+            <button onclick="alert('Incorrect. Ce n’est pas Fontainebleau.')">Fontainebleau</button>
+			<button onclick="alert('Bonne réponse ! Ordonnance de Villers-Cotterêts.')">Villers-Cotterêts</button>
+            <button onclick="alert('Incorrect. Ce n’est pas Nantes.')">Nantes</button>
+        </div>
+
+    </div>
+</body>
+</html>

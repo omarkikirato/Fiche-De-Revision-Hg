@@ -3,139 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Résumé : L’affirmation de l’État dans le royaume de France</title>
+    <title>Accueil</title>
     <style>
-        body { 
-            font-family: 'Garamond', serif; 
-            margin: 0; 
-            background: linear-gradient(to bottom, #f2e8dc, #d6c6b8); 
-        }
-        nav {
-            background: #4b2e1e;
-            padding: 10px 0;
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
+        body {
+            font-family: 'Garamond', serif;
+            background: linear-gradient(to bottom, #f2e8dc, #d6c6b8);
             text-align: center;
-        }
-        nav a {
-            color: #fff8ef;
-            text-decoration: none;
-            margin: 0 15px;
-            font-weight: bold;
-        }
-        nav a:hover {
-            color: #d6c6b8;
+            margin: 0;
+            padding: 0;
         }
         .container {
-            background: #fff8ef; 
-            padding: 25px; 
-            border-radius: 8px; 
-            box-shadow: 0 0 15px rgba(0,0,0,0.1); 
-            max-width: 900px; 
-            margin: 100px auto 20px auto;
-            border: 1px solid #b89b79;
+            margin-top: 100px;
         }
-        h1, h2 {
+        h1 {
             color: #4b2e1e;
         }
-        ul { 
-            margin-left: 20px; 
-            color: #3c2a1c;
-        }
-        li::marker {
-            color: #b89b79;
-        }
-        .quiz {
-            background: #f9efe1;
-            padding: 20px;
-            margin-top: 30px;
-            border: 1px solid #b89b79;
-            border-radius: 8px;
-        }
-        .quiz h3 {
-            margin-bottom: 15px;
-        }
-        .quiz-question {
-            margin-bottom: 20px;
-        }
-        .quiz button {
+        a {
+            display: inline-block;
+            margin: 15px;
+            padding: 12px 24px;
             background-color: #4b2e1e;
-            color: white;
-            padding: 8px 14px;
-            margin-top: 5px;
-            margin-right: 10px;
-            border: none;
+            color: #fff;
+            text-decoration: none;
             border-radius: 5px;
-            cursor: pointer;
+            font-weight: bold;
         }
-        .quiz button:hover {
+        a:hover {
             background-color: #6c4c34;
-        }
-        canvas {
-            display: block;
-            margin: 20px auto;
-            background: #333;
-            border: 3px solid #b89b79;
-        }
-        .scoreboard, .buttons {
-            text-align: center;
-            font-size: 1.2em;
-            color: #4b2e1e;
-            margin: 10px;
         }
     </style>
 </head>
 <body>
-    <nav>
-        <a href="#contexte">Contexte</a>
-        <a href="#centralisation">Centralisation</a>
-        <a href="#institutions">Institutions</a>
-        <a href="#resistances">Résistances</a>
-        <a href="#consequences">Conséquences</a>
-    </nav>
-
     <div class="container">
-        <h1>L’affirmation de l’État dans le royaume de France</h1>
-        <!-- Texte du cours conservé -->
-
-        <div class="quiz">
-            <h3>🧠 Quiz rapide :</h3>
-
-            <div class="quiz-question">
-                <p>1. Quel roi symbolise l’absolutisme en France ?</p>
-                <button onclick="alert('Bonne réponse ! Louis XIV est le Roi-Soleil.')">Louis XIV</button>
-                <button onclick="alert('Incorrect. Ce n’est pas Henri II.')">Henri II</button>
-                <button onclick="alert('Incorrect. Ce n’est pas François Ier.')">François Ier</button>
-            </div>
-
-            <div class="quiz-question">
-                <p>2. Qui était le principal ministre de Louis XIII ?</p>
-                <button onclick="alert('Bonne réponse ! C’est Richelieu.')">Richelieu</button>
-                <button onclick="alert('Incorrect. Ce n’est pas Colbert.')">Colbert</button>
-                <button onclick="alert('Incorrect. Ce n’est pas Mazarin.')">Mazarin</button>
-            </div>
-
-            <div class="quiz-question">
-                <p>3. Quelle ordonnance impose le français comme langue officielle ?</p>
-                <button onclick="alert('Bonne réponse ! Ordonnance de Villers-Cotterêts.')">Villers-Cotterêts</button>
-                <button onclick="alert('Incorrect. Ce n’est pas Fontainebleau.')">Fontainebleau</button>
-                <button onclick="alert('Incorrect. Ce n’est pas Nantes.')">Nantes</button>
-            </div>
-        </div>
+        <h1>Bienvenue !</h1>
+        <p>Choisis une section :</p>
+        <a href="cours.html">📚 Le Cours</a>
+        <a href="quiz.html">🧠 Quiz</a>
+        <a href="pong.html">🎮 Jouer à Pong</a>
     </div>
-
-    <div class="scoreboard">
-        Score Joueur : <span id="playerScore">0</span> | Score IA : <span id="aiScore">0</span>
-    </div>
-
-    <div class="buttons">
-        <button id="startBtn">Jouer</button>
-        <button id="fullscreenBtn">Plein écran</button>
-    </div>
-
-    <canvas id="pong" width="600" height="400"></canvas>
-
 </body>
 </html>
