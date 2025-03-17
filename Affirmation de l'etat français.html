@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fiche de Revision.</title>
+    <style>
+        body { 
+            font-family: 'Garamond', serif; 
+            margin: 20px; 
+            background: linear-gradient(to bottom, #f2e8dc, #d6c6b8); 
+        }
+        h1 { 
+            text-align: center; 
+            color: #4b2e1e; 
+            font-size: 2.5em;
+        }
+        h2 { 
+            color: #5a3928; 
+            border-bottom: 2px solid #b89b79; 
+            padding-bottom: 5px; 
+            margin-top: 30px;
+        }
+        ul { 
+            margin-left: 20px; 
+            color: #3c2a1c;
+        }
+        .container { 
+            background: #fff8ef; 
+            padding: 25px; 
+            border-radius: 8px; 
+            box-shadow: 0 0 15px rgba(0,0,0,0.1); 
+            max-width: 900px; 
+            margin: auto;
+            border: 1px solid #b89b79;
+        }
+        li::marker {
+            color: #b89b79;
+        }
+        canvas {
+            display: block;
+            margin: 20px auto;
+            background: #333;
+            border: 3px solid #b89b79;
+        }
+        .scoreboard, .buttons {
+            text-align: center;
+            font-size: 1.2em;
+            color: #4b2e1e;
+            margin: 10px;
+        }
+        button {
+            background-color: #b89b79;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            margin: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #967c5b;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>L’affirmation de l’État dans le royaume de France</h1>
+        <h2>1. Contexte historique approfondi</h2>
+        <ul>
+            <li>Sortie de la guerre de Cent Ans, monarchie affaiblie mais restaurée.</li>
+            <li>François Ier impose le français comme langue officielle et renforce le pouvoir royal face au pape.</li>
+            <li>Les guerres de Religion divisent le royaume (1562-1598) jusqu’à l’édit de Nantes d’Henri IV.</li>
+        </ul>
+
+        <h2>2. Centralisation du pouvoir royal</h2>
+        <ul>
+            <li>Richelieu sous Louis XIII lutte contre les protestants et les nobles rebelles (prise de La Rochelle, 1628).</li>
+            <li>Création des intendants pour administrer les provinces au nom du roi.</li>
+            <li>Louis XIV incarne l’absolutisme : Versailles devient le centre du pouvoir royal (1682).</li>
+        </ul>
+
+        <h2>3. Institutions royales renforcées</h2>
+        <ul>
+            <li>Richelieu puis Colbert modernisent l’administration et les finances.</li>
+            <li>Armée permanente restructurée par Louvois.</li>
+            <li>Réduction du pouvoir des Parlements sous Louis XIV.</li>
+        </ul>
+
+        <h2>4. Les résistances au pouvoir royal</h2>
+        <ul>
+            <li>La Fronde (1648-1653) : révolte des nobles et du Parlement de Paris contre Mazarin.</li>
+            <li>Protestants persécutés, notamment après la révocation de l’édit de Nantes (1685).</li>
+            <li>Critiques d’intellectuels contre l’absolutisme grandissant.</li>
+        </ul>
+
+        <h2>5. Conséquences</h2>
+        <ul>
+            <li>Unification du royaume sous un État centralisé et autoritaire.</li>
+            <li>France devient la principale puissance européenne sous Louis XIV.</li>
+            <li>Montée des tensions sociales et fiscales qui préparent l’émergence des idées des Lumières.</li>
+        </ul>
+    </div>
+
+    <div class="scoreboard">
+        Score Joueur : <span id="playerScore">0</span> | Score IA : <span id="aiScore">0</span>
+    </div>
+
+    <div class="buttons">
+        <button id="startBtn">Jouer</button>
+        <button id="fullscreenBtn">Plein écran</button>
+    </div>
+
+    <canvas id="pong" width="600" height="400"></canvas>
+
+    <script>
+        const canvas = document.getElementById('pong');
+        const ctx = canvas.getContext('2d');
+        const startBtn = document.getElementById('startBtn');
+        const fullscreenBtn = document.getElementById('fullscreenBtn');
+
+        let paddleHeight = 75, paddleWidth = 10, ballRadius = 8;
+        let paddleY = (canvas.height - paddleHeight) / 2;
+        let aiPaddleY = (canvas.height - paddleHeight) / 2;
+        let rightPressed = false, leftPressed = false;
+        let x = canvas.width / 2, y = canvas.height / 2;
+        let dx = 3, dy = 3;
+        let playerScore = 0, aiScore = 0;
+        let interval;
+
+        document.addEventListener('keydown', e => { if (e.key == "ArrowUp") rightPressed = true; if (e.key == "ArrowDown") leftPressed = true; });
+        document.addEventListener('keyup', e => { if (e.key == "ArrowUp") rightPressed = false; if (e.key == "ArrowDown") leftPressed = false; });
+
+        startBtn.onclick = () => {
+            if (!interval) interval = setInterval(draw, 10);
+        };
+
+        fullscreenBtn.onclick = () => {
+            if (canvas.requestFullscreen) {
+                canvas.requestFullscreen();
+            } else if (canvas.webkitRequestFullscreen) {
+                canvas.webkitRequestFullscreen();
+            } else if (canvas.msRequestFullscreen) {
+                canvas.msRequestFullscreen();
+            }
+        };
+
+        function drawPaddle(x, y) {
+            ctx.beginPath();
+            ctx.rect(x, y, paddleWidth, paddleHeight);
+            ctx.fillStyle = "#b89b79";
+            ctx.fill();
+            ctx.closePath();
+        }
+
+        function drawBall() {
+            ctx.beginPath();
+            ctx.arc(x, y, ballRadius, 0, Math.PI * 2);
+            ctx.fillStyle = "#b89b79";
+            ctx.fill();
+            ctx.closePath();
+        }
+
+        function resetBall() {
+            x = canvas.width / 2;
+            y = canvas.height / 2;
+            dx = -dx;
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            drawPaddle(0, paddleY);
+            drawPaddle(canvas.width - paddleWidth, aiPaddleY);
+            drawBall();
+
+            if (aiPaddleY + paddleHeight/2 < y) aiPaddleY += 2.5;
+            else if (aiPaddleY + paddleHeight/2 > y) aiPaddleY -= 2.5;
+
+            if (y + dy > canvas.height - ballRadius || y + dy < ballRadius) dy = -dy;
+            if (x + dx < paddleWidth) {
+                if (y > paddleY && y < paddleY + paddleHeight) dx = -dx;
+                else { aiScore++; document.getElementById('aiScore').innerText = aiScore; resetBall(); }
+            }
+            if (x + dx > canvas.width - paddleWidth) {
+                if (y > aiPaddleY && y < aiPaddleY + paddleHeight) dx = -dx;
+                else { playerScore++; document.getElementById('playerScore').innerText = playerScore; resetBall(); }
+            }
+
+            if (rightPressed && paddleY > 0) paddleY -= 7;
+            else if (leftPressed && paddleY < canvas.height - paddleHeight) paddleY += 7;
+
+            x += dx;
+            y += dy;
+        }
+    </script>
+</body>
+</html>
